@@ -212,6 +212,8 @@ class DatabaseWrapper(BaseDatabaseWrapper):
                 self.connection.commit()
 
     def create_cursor(self, name=None):
+        if self.connection is None or self.connection.closed==1:
+            self.connect()
         if name:
             # In autocommit mode, the cursor will be used outside of a
             # transaction, hence use a holdable cursor.
